@@ -1,44 +1,49 @@
-package org.ada.school.model;
+package org.ada.school.repository;
 
 import org.ada.school.dto.UserDto;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
-import java.util.UUID;
 
-public class User
-
+@Document
+public class UserDocument
 {
-
+    @Id
     String id;
 
     String name;
 
+    @Indexed( unique = true )
     String email;
 
     String lastName;
 
     Date createdAt;
 
-
-    public User( UserDto userDto )
-    {
-        id = UUID.randomUUID().toString();
-        name = userDto.getName();
-        lastName = userDto.getLastName();
-        email = userDto.getEmail();
-        createdAt = new Date();
+    public UserDocument(String id, String name, String email, String lastName, Date createdAt){
+        setId(id);
+        setName(name);
+        setEmail(email);
+        setLastName(lastName);
+        setCreatedAt(createdAt);
     }
 
-    public User(String id, String name, String email, String lastName, Date createdAt){
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.lastName = lastName;
-        this.createdAt = createdAt;
+    public UserDocument()
+    {
+    }
+
+    public String getId() {
+        return id;
     }
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public void setName(String name) {
@@ -68,17 +73,6 @@ public class User
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
-
-    public String getName()
-    {
-        return name;
-    }
-
-    public String getId()
-    {
-        return id;
-    }
-
     public void update( UserDto userDto )
     {
         name = userDto.getName();
@@ -86,3 +80,5 @@ public class User
         email = userDto.getEmail();
     }
 }
+
+
